@@ -801,7 +801,7 @@ class Docker ( Host ):
         self.d_client = docker.from_env()
         self.dcli = self.d_client.api
 
-        self.priviliged = defaults['privileged']
+        self.privileged = defaults['privileged']
 
         _id = None
         if build_params.get("path", None):
