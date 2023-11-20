@@ -763,7 +763,8 @@ class Docker ( Host ):
                      'devices': [],
                      'cap_add': ['net_admin'],  # we need this to allow mininet network setup
                      'storage_opt': None,
-                     'sysctls': {}
+                     'sysctls': {},
+                     'privileged': False
                      }
         defaults.update( kwargs )
 
@@ -800,6 +801,8 @@ class Docker ( Host ):
         self.d_client = docker.from_env()
         self.dcli = self.d_client.api
 
+        self.priviliged = defaults['privileged']
+
         _id = None
         if build_params.get("path", None):
             if not build_params.get("tag", None):
@@ -825,7 +828,7 @@ class Docker ( Host ):
         # see: https://docker-py.readthedocs.io/en/stable/api.html#docker.api.container.ContainerApiMixin.create_host_config
         hc = self.dcli.create_host_config(
             network_mode=self.network_mode,
-            privileged=False,  # no longer need privileged, using net_admin capability instead
+            privileged=self.privileged,  # no longer need privileged, using net_admin capability instead
             binds=self.volumes,
             tmpfs=self.tmpfs,
             publish_all_ports=self.publish_all_ports,
