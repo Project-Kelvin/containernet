@@ -795,13 +795,12 @@ class Docker ( Host ):
         self.cap_add = defaults['cap_add']
         self.sysctls = defaults['sysctls']
         self.storage_opt = defaults['storage_opt']
+        self.privileged = defaults['privileged']
 
         # setup docker client
         # self.dcli = docker.APIClient(base_url='unix://var/run/docker.sock')
         self.d_client = docker.from_env()
         self.dcli = self.d_client.api
-
-        self.privileged = defaults['privileged']
 
         _id = None
         if build_params.get("path", None):
