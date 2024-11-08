@@ -842,7 +842,10 @@ class Docker ( Host ):
             storage_opt=self.storage_opt,
             # Assuming Docker uses the cgroupfs driver, we set the parent to safely
             # access cgroups when modifying resource limits.
-            cgroup_parent='/docker'
+            cgroup_parent='/docker',
+            restart_policy={
+                "on-failure": 5
+            }
         )
 
         if kwargs.get("rm", False):
